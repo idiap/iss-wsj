@@ -35,7 +35,7 @@ wsj1=/idiap/resource/database/WSJ1
 
 # Basic grid operation
 nCPUs=$(cat /proc/cpuinfo | fgrep processor | wc -l)
-if true
+if false
 then
     export USE_GE=1
     export N_JOBS=10
@@ -52,6 +52,7 @@ export FLAT_DICT=../local/flat-dict.txt
 export MAIN_DICT=../local/main-dict.txt
 
 # Front-end
+# 
 export FEAT_NAME=PLP_0
 export EXTRACT=hcopy
 export HCOPY_CONFIG=$ISSROOT/lib/config/PLP_0.cfg
@@ -63,3 +64,6 @@ export TARGET_KIND=PLP_0_D_A_Z
 trainList=../local/si-284-list.txt
 #testList=../local/si_et_05-list.txt
 testList=../local/h2_p0-list.txt
+
+# This should get overridden
+export FILE_LIST=/dev/null
