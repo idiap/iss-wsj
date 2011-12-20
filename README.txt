@@ -105,7 +105,7 @@ a. CreateMLPLists.sh
 This will generate train, dev and test lists. Train and dev used for MLP
 training
 
-b. CreateMLPLabels.sh
+b. CreateMLPLabels.sh align
 
 This will generate phone alignments for the train, dev and test MLP lists. The
 acoustic models to use must be specified within CreateMLPLabels.sh.
@@ -129,14 +129,26 @@ e. ForwardMLP-test.sh fwdmlp-test-si_et_20
 Computes tandem features for the test set (it uses the KLT stats from the
 previous step).
 
-The train and test tandem features are stored into
-feats/$featName/$MLP_OUT_HTK_DIR . MLP_OUT_HTK_DIR is defined inside
-ForwardMLP-train.sh and ForwardMLP-test.sh respectively. To use tandem
-the tandem features to train and test acoustic models change the trainList and
-testList variables in Config.sh as:
+The train and test tandem features are stored into feats/$featName/$MLP_OUT_HTK_DIR . MLP_OUT_HTK_DIR is defined inside
+ForwardMLP-train.sh and ForwardMLP-test.sh respectively. To use tandem features to train and test acoustic models change the trainList and
+testList variables in Config.sh to:
 
   trainList=../fwdmlp-train-si-284/file-list-htk.txt
   testList=../fwdmlp-test-si_et_20/file-list-htk.txt
+
+f. Train.sh train-tandem-si-284
+
+Trains an HMM-GMM model using tandem features.
+
+g. TestGMM.sh test-tandem-si_et_20
+
+Runs the test (You need to change the acoustic models used to
+acousticModel=../train-tandem-si-284)
+
+h. Score.sh test-tandem-si_et_20
+
+Score the test.
+
 
 
 Notes
