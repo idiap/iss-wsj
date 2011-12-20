@@ -37,13 +37,13 @@ export TIE_FORCE_NSTATES=3000
 start=${START:-init}
 case $start in
 init)
-#    init-train.sh
-#    flat-start.sh
-#    fix-silence.sh
-#    align.sh
-#    reestimate-mono.sh
-#    init-tri.sh
-#    reestimate-tri.sh
+    init-train.sh
+    flat-start.sh
+    fix-silence.sh
+    align.sh
+    reestimate-mono.sh
+    init-tri.sh
+    reestimate-tri.sh
     tie.sh
     ;&
 mix-up)

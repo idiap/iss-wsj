@@ -36,14 +36,14 @@ Trains an HMM-GMM model using HTS.
 
 3. Prepare for testing.
 
-a. CreateLM20k.sh (or CreateLM5k.sh)
+a. CreateLM20k.sh
 
 Converts the WSJ LM and word lists to generic formats in ./local
 
 
 4. Now the test can be run.
 
-a. CreateRecDict.sh (or CreateNetwork.sh if HVite is used for decoding)
+a. CreateRecDict.sh
 
 Creates the recognition dictionary for use with HDecode.
 
@@ -51,7 +51,7 @@ b. ExtractTest.sh test-mfccez-si_et_20
 
 Extracts testing data.
 
-c. TestGMM.sh test-mfccez-si_et_20 (Use DECODER=HVite for HVite based decoding)
+c. TestGMM.sh test-mfccez-si_et_20
 
 Runs the test.
 
