@@ -98,12 +98,53 @@ c. Score.sh test-mfccez-si_et_20-sat-mllr
 Score the test.
 
 
+7. Tandem features from MLP phone posteriors
+
+a. CreateMLPLists.sh
+
+This will generate train, dev and test lists. Train and dev used for MLP
+training
+
+b. CreateMLPLabels.sh
+
+This will generate phone alignments for the train, dev and test MLP lists. The
+acoustic models to use must be specified within CreateMLPLabels.sh.
+
+c. PrepareMLP.sh mlptrain-si-284
+
+Shuffle and prepare Quicknet data for MLP training (see MLP architecture set-up
+inside the script.)
+
+c. TrainMLP.sh mlptrain-si-284
+
+Train MLP, outputs a mat file with architecture as file name.
+
+d. ForwardMLP-train.sh fwdmlp-train-si-284
+
+Runs a MLP forward pass on the training data, trains the KLT transform and
+applies log and KLT to obtain tandem features.
+
+e. ForwardMLP-test.sh fwdmlp-test-si_et_20
+
+Computes tandem features for the test set (it uses the KLT stats from the
+previous step).
+
+The train and test tandem features are stored into
+feats/$featName/$MLP_OUT_HTK_DIR . MLP_OUT_HTK_DIR is defined inside
+ForwardMLP-train.sh and ForwardMLP-test.sh respectively. To use tandem
+the tandem features to train and test acoustic models change the trainList and
+testList variables in Config.sh as:
+
+  trainList=../fwdmlp-train-si-284/file-list-htk.txt
+  testList=../fwdmlp-test-si_et_20/file-list-htk.txt
+
 
 Notes
 =====
 
 In principle the local directory could be copied to
 /idiap/resource/database because it is static.  This would save
+#acousticModel=../train-351x4423x100x4423x40-tandem-si-284
 running many of the CreateXXX.sh scripts.  However, they are not
 difficult to run.
 
