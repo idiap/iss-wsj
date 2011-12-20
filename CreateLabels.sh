@@ -15,8 +15,10 @@ typeset -A dirMap
 dirMap=(
     si-101   ../dbase/wsj0/transcrp/dots/si_tr_s # 101 speakers
     si_et_05 ../dbase/wsj0/si_et_05              #   8 speakers
+    si_et_20 ../dbase/wsj0/si_et_20              #   8 speakers
     si-200   ../dbase/wsj1/trans/wsj1/si_tr_s    # 200 speakers
     h2_p0    ../dbase/wsj1/si_et_h2/wsj5k        #  10 speakers
+    h1_p0    ../dbase/wsj1/si_et_h1/wsj64k       #  10 speakers
 )
 
 # Extension of the reference files
@@ -24,12 +26,14 @@ typeset -A refMap
 refMap=(
     si-101   dot
     si_et_05 dot
+    si_et_20 dot
     si-200   dot
     h2_p0    lsn
+    h1_p0    lsn
 )
 
 # Find files and convert to MLF
-for d in si-101 si-200 si_et_05 h2_p0
+for d in si-101 si-200 si_et_05 si_et_20 h2_p0 h1_p0
 do
     if [ ! -e $d-refs.txt ]
     then
@@ -45,4 +49,6 @@ dot-to-lab.rb -w si_tr_s-words.txt $(cat si-101-refs.txt si-200-refs.txt) \
 # In the testing data we delete the noises
 # ...actually the lsn format should have done that for h2_p0
 dot-to-lab.rb -d $(cat si_et_05-refs.txt) > si_et_05.mlf
+dot-to-lab.rb -d $(cat si_et_20-refs.txt) > si_et_20.mlf
 dot-to-lab.rb -d $(cat h2_p0-refs.txt) > h2_p0.mlf
+dot-to-lab.rb -d $(cat h1_p0-refs.txt) > h1_p0.mlf

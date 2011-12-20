@@ -17,6 +17,8 @@ SETSHELL hts
 SETSHELL grid
 SETSHELL python31
 
+# Beware that HDecode must be compiled as 32-bit. So I use HDecode in /idiap/home/mferras/src/htk/HTKLVRec/HDecode (see TestGMM.sh)
+
 # Check for ISS; add it to the path
 if [ "$ISSROOT" = "" ]
 then
@@ -35,13 +37,14 @@ wsj1=/idiap/resource/database/WSJ1
 
 # Basic grid operation
 nCPUs=$(cat /proc/cpuinfo | fgrep processor | wc -l)
-if false
+if true
 then
     export USE_GE=1
-    export N_JOBS=10
+    export N_JOBS=15
 else
     export USE_GE=0
-    export N_JOBS=$nCPUs
+    #export N_JOBS=$nCPUs
+    export N_JOBS=1
 fi
 
 # Environment variables to pass to working scripts
@@ -51,19 +54,21 @@ export PHONESET=CMUbet
 export FLAT_DICT=../local/flat-dict.txt
 export MAIN_DICT=../local/main-dict.txt
 
+export MIX_ORDER=16
 # Front-end
 # 
-export FEAT_NAME=PLP_0
+export FEAT_NAME=MFCC_E
+#export FEAT_NAME=PLP_0
 export EXTRACT=hcopy
-export HCOPY_CONFIG=$ISSROOT/lib/config/PLP_0.cfg
-export TARGET_KIND=PLP_0_D_A_Z
+#export HCOPY_CONFIG=$ISSROOT/lib/config/PLP_0.cfg
+export HCOPY_CONFIG=../lib/config/MFCC_E.cfg
+#export TARGET_KIND=PLP_0_D_A_Z
+export TARGET_KIND=MFCC_E_D_A_Z
 
 # Train and test lists
 # Choose si-84 or si-284 for training
-#trainList=../local/si-84-list.txt
 trainList=../local/si-284-list.txt
-#testList=../local/si_et_05-list.txt
-testList=../local/h2_p0-list.txt
-
+testList=../local/si_et_20-list.txt
+#
 # This should get overridden
 export FILE_LIST=/dev/null

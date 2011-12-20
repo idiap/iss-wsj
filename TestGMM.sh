@@ -16,11 +16,13 @@ export FILE_LIST=$testList
 export DECODE_DICT=$MAIN_DICT
 
 # This is the acoustic model to use
-acousticModel=../plpz-si-284
+#acousticModel=../plpz-si-284
+acousticModel=../train-mfccez-si-284
 export DECODE_MODEL_DIR=$acousticModel/hmm-eval
 
 # The other things depend on which decoder is used
-export DECODER=HVite
+export DECODER=HDecode
+export HDECODE=/idiap/home/mferras/src/htk/HTKLVRec/HDecode
 case $DECODER in
 'HVite')
     # This is the grammar
@@ -28,6 +30,17 @@ case $DECODER in
     export DECODE_LM_SCALE=16.0
     export DECODE_WORD_PENALTY=-10.0
     export PRUNE="300 300 5000"
+    ;;
+'HDecode')
+    # This is the grammar
+    #export DECODE_GRAMMAR=../local/bcb20cnp-arpa.txt
+    export DECODE_GRAMMAR=../local/tcb20onp-arpa.txt
+    export DECODE_DICT=../wsj20k/rec-dict.txt
+		export NET_WORDS=../local/wlist20c-nvp.txt
+    export DECODE_LM_SCALE=16.0
+    export DECODE_WORD_PENALTY=-10.0
+    export PRUNE="250.0 250.0"
+    export DECODE_BLOCK_SIZE=5
     ;;
 'Juicer')
     export FEAT_NAME=PLP_0_D_A_Z

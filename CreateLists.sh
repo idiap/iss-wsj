@@ -15,12 +15,14 @@ typeset -A listMap
 listMap=(
     si-84    ../dbase/wsj0/doc/indices/train/tr_s_wv1.ndx      #  7,236 utts
     si_et_05 ../dbase/wsj0/doc/indices/test/nvp/si_et_05.ndx   #    330 utts
+    si_et_20 ../dbase/wsj0/doc/indices/test/nvp/si_et_20.ndx   #    338 utts
     si-200   ../dbase/wsj1/doc/indices/wsj1/train/tr_s_wv1.ndx # 30,278 utts
     h2_p0    ../dbase/wsj1/doc/indices/wsj1/eval/h2_p0.ndx     #    215 utts
+    h1_p0    ../dbase/wsj1/doc/indices/wsj1/eval/h1_p0.ndx     #    219 utts
 )
 
 # Convert each list to ISS form
-for l in si-84 si-200 si_et_05 h2_p0
+for l in si-84 si-200 si_et_05 si_et_20 h2_p0 h1_p0
 do
     echo $l
     cat $listMap[$l] \

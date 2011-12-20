@@ -25,39 +25,78 @@ This script creates the two dictionaries required for training: flat
 
 2. Now a system can be trained.
 
-a. ExtractTrain.sh my-train-dir
+a. ExtractTrain.sh train-mfccez-si-284
 
 Extracts features to the feats directory.
 
-b. Train.sh my-train-dir
+b. Train.sh train-mfccez-si-284
 
 Trains an HMM-GMM model using HTS.
 
 
 3. Prepare for testing.
 
-a. CreateLM.sh
+a. CreateLM20k.sh (or CreateLM5k.sh)
 
 Converts the WSJ LM and word lists to generic formats in ./local
 
 
 4. Now the test can be run.
 
-a. CreateNetwork.sh my-test-dir
+a. CreateRecDict.sh (or CreateNetwork.sh if HVite is used for decoding)
 
-Creates an HTK network suitable for decoding using HVite.
+Creates the recognition dictionary for use with HDecode.
 
-b. ExtractTest.sh my-test-dir
+b. ExtractTest.sh test-mfccez-si_et_20
 
 Extracts testing data.
 
-c. TestGMM.sh my-test-dir
+c. TestGMM.sh test-mfccez-si_et_20 (Use DECODER=HVite for HVite based decoding)
 
 Runs the test.
 
-d. Score.sh my-test-dir
+d. Score.sh test-mfccez-si_et_20
 
 Score the test.
+
+
+5. Speaker Adaptive Training (SAT)
+
+a. AdaptCMLLR-train.sh adaptcmllr-mfccez-si-284 
+
+Estimate CMLLR transforms for the training set
+
+b. RetrainGMM-sat.sh train-mfccez-si-284
+
+Train CMLLR speaker normalized acoustic models
+
+c. AdaptCMLLR-test.sh adaptcmllr-mfccez-si_et_20
+
+Estimate CMLLR transforms (supervised) for the test set
+
+d. TestGMM-sat.sh test-mfccez-si_et_20-sat
+
+Run the test with speaker adapted models
+
+e. Score.sh test-mfccez-si_et_20-sat
+
+Score the test.
+
+
+6. SAT+MLLR Speaker Adaptation
+
+a. AdaptMLLR-sat-test.sh adaptmllr-mfccez-si_et_20
+
+Estimate MLLR transforms for the test set with the speaker adapted models
+
+b. TestGMM-sat-mllr.sh test-mfccez-si_et_20-sat-mllr
+
+Run the test with speaker adapted models plus MLLR
+
+c. Score.sh test-mfccez-si_et_20-sat-mllr
+
+Score the test.
+
 
 
 Notes
