@@ -12,4 +12,6 @@ script=$1; shift
 chdir.sh $*
 
 export USE_GE=0
+export N_JOBS=$nCPUs
+
 $script

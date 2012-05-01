@@ -17,8 +17,6 @@ SETSHELL hts
 SETSHELL grid
 SETSHELL python31
 
-# Beware that HDecode must be compiled as 32-bit. So I use HDecode in /idiap/home/mferras/src/htk/HTKLVRec/HDecode (see TestGMM.sh)
-
 # Check for ISS; add it to the path
 if [ "$ISSROOT" = "" ]
 then
@@ -43,8 +41,7 @@ then
     export N_JOBS=15
 else
     export USE_GE=0
-    #export N_JOBS=$nCPUs
-    export N_JOBS=1
+    export N_JOBS=$nCPUs
 fi
 
 # Environment variables to pass to working scripts
@@ -55,20 +52,32 @@ export FLAT_DICT=../local/flat-dict.txt
 export MAIN_DICT=../local/main-dict.txt
 
 export MIX_ORDER=16
+
 # Front-end
-# 
-export FEAT_NAME=MFCC_E
-#export FEAT_NAME=PLP_0
+# $FEAT_NAME is the directory to which features are written
 export EXTRACT=hcopy
-#export HCOPY_CONFIG=$ISSROOT/lib/config/PLP_0.cfg
-export HCOPY_CONFIG=../lib/config/MFCC_E.cfg
-#export TARGET_KIND=PLP_0_D_A_Z
-export TARGET_KIND=MFCC_E_D_A_Z
+feats=plp
+case $feats in
+user)
+    export FEAT_NAME=USER
+    export TARGET_KIND=USER_D_A
+    ;;
+mfcc)
+    export FEAT_NAME=MFCC_E
+    export HCOPY_CONFIG=$ISSROOT/lib/config/MFCC_E.cfg
+    export TARGET_KIND=MFCC_E_D_A_Z
+    ;;
+plp)
+    export FEAT_NAME=PLP_0
+    export HCOPY_CONFIG=$ISSROOT/lib/config/PLP_0.cfg
+    export TARGET_KIND=PLP_0_D_A_Z
+    ;;
+esac
 
 # Train and test lists
 # Choose si-84 or si-284 for training
 trainList=../local/si-284-list.txt
 testList=../local/si_et_20-list.txt
-#
+
 # This should get overridden
 export FILE_LIST=/dev/null

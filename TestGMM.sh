@@ -16,13 +16,11 @@ export FILE_LIST=$testList
 export DECODE_DICT=$MAIN_DICT
 
 # This is the acoustic model to use
-#acousticModel=../plpz-si-284
-acousticModel=../train-mfccez-si-284
+acousticModel=../test-dir
 export DECODE_MODEL_DIR=$acousticModel/hmm-eval
 
 # The other things depend on which decoder is used
-export DECODER=HDecode
-export HDECODE=/idiap/home/mferras/src/htk/HTKLVRec/HDecode
+export DECODER=HVite
 case $DECODER in
 'HVite')
     # This is the grammar
@@ -32,11 +30,13 @@ case $DECODER in
     export PRUNE="300 300 5000"
     ;;
 'HDecode')
+    # HDecode should be a 32 bit version, so override it.
+    export HDECODE=/idiap/resource/software/HTK/HTK_V3.4.1/bin/HDecode
     # This is the grammar
     #export DECODE_GRAMMAR=../local/bcb20cnp-arpa.txt
     export DECODE_GRAMMAR=../local/tcb20onp-arpa.txt
     export DECODE_DICT=../wsj20k/rec-dict.txt
-		export NET_WORDS=../local/wlist20c-nvp.txt
+    export NET_WORDS=../local/wlist20c-nvp.txt
     export DECODE_LM_SCALE=16.0
     export DECODE_WORD_PENALTY=-10.0
     export PRUNE="250.0 250.0"

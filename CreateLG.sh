@@ -17,10 +17,8 @@ export WFST_NORM_LM=1
 # This is just for the monophone list
 export WFST_MODEL_DIR=../plpz-si-284/hmm-eval
 
-# -log10(0.5)
 export WFST_LM_SCALE=16.0
 export WFST_WORD_PENALTY=-10.0
-#export WFST_WORD_PENALTY=-14.8165
 
 # Call the main script
 export USE_GE=0
