@@ -6,6 +6,7 @@
 #
 # Author(s):
 #   Phil Garner, July 2011
+#   Marc Ferras
 #
 
 # Allow setshell
@@ -33,6 +34,15 @@ autoload chdir.sh
 wsj0=/idiap/resource/database/WSJ0
 wsj1=/idiap/resource/database/WSJ1
 
+# Environment variables to pass to working scripts
+export DBASE_ROOT=..
+export AUDIO_NAME=wv1
+export PHONESET=CMUbet
+export FLAT_DICT=../local/flat-dict.txt
+export MAIN_DICT=../local/main-dict.txt
+
+export MIX_ORDER=16
+
 # Basic grid operation
 nCPUs=$(cat /proc/cpuinfo | fgrep processor | wc -l)
 if true
@@ -43,15 +53,6 @@ else
     export USE_GE=0
     export N_JOBS=$nCPUs
 fi
-
-# Environment variables to pass to working scripts
-export DBASE_ROOT=..
-export AUDIO_NAME=wv1
-export PHONESET=CMUbet
-export FLAT_DICT=../local/flat-dict.txt
-export MAIN_DICT=../local/main-dict.txt
-
-export MIX_ORDER=16
 
 # Front-end
 # $FEAT_NAME is the directory to which features are written
@@ -76,8 +77,34 @@ esac
 
 # Train and test lists
 # Choose si-84 or si-284 for training
-trainList=../local/si-284-list.txt
-testList=../local/si_et_20-list.txt
+train=si-284
+case $train in
+si-84)
+    trainList=../local/si-84-list.txt
+    ;;
+si-284)
+    trainList=../local/si-284-list.txt
+    ;;
+esac
+
+# Various sets for decoding
+export DECODER=HDecode
+gram=b
+task=20k
+case $task in
+h2-p0)
+    export LM_ARPA_FILE=../local/${gram}cb05cnp-arpa.txt
+    export LM_WORD_LIST=../local/wlist5c-nvp.txt
+    export SCORE_REFERENCE=../local/h2_p0.mlf
+    testList=../local/h2_p0-list.txt
+    ;;
+20k)
+    export LM_ARPA_FILE=../local/${gram}cb20onp-arpa.txt
+    export LM_WORD_LIST=../local/wlist20o-nvp.txt
+    export SCORE_REFERENCE=../local/si_et_20.mlf
+    testList=../local/si_et_20-list.txt
+    ;;
+esac
 
 # This should get overridden
 export FILE_LIST=/dev/null

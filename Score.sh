@@ -15,11 +15,7 @@ chdir.sh $*
 export USE_GE=0
 export FILE_LIST=$testList
 #export SCORE_REFERENCE=../local/si_et_05.mlf
-export SCORE_REFERENCE=../local/si_et_20.mlf
-#export SCORE_REFERENCE=../local/h2_p0.mlf
 #export SCORE_REFERENCE=../local/h1_p0.mlf
-#export DECODE_DICT=$MAIN_DICT
-export DECODE_DICT=../wsj20k/rec-dict.txt
 
 # Call the main script
 score.sh

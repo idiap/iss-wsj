@@ -36,26 +36,26 @@ Trains an HMM-GMM model using HTS.
 
 3. Prepare for testing.
 
-a. CreateLM20k.sh
+a. CreateLMs.sh
 
 Converts the WSJ LM and word lists to generic formats in ./local
+
+c. CreateLM.sh wsj20k
+
+Creates a language model suitable for the selected decoder
 
 
 4. Now the test can be run.
 
-a. CreateRecDict.sh
-
-Creates the recognition dictionary for use with HDecode.
-
-b. ExtractTest.sh test-mfccez-si_et_20
+a. ExtractTest.sh test-mfccez-si_et_20
 
 Extracts testing data.
 
-c. TestGMM.sh test-mfccez-si_et_20
+b. TestGMM.sh test-mfccez-si_et_20
 
 Runs the test.
 
-d. Score.sh test-mfccez-si_et_20
+c. Score.sh test-mfccez-si_et_20
 
 Score the test.
 
@@ -107,13 +107,14 @@ training
 
 b. CreateMLPLabels.sh align
 
-This will generate phone alignments for the train, dev and test MLP lists. The
-acoustic models to use must be specified within CreateMLPLabels.sh.
+This will generate phone alignments for the train, dev and test MLP
+lists. The acoustic models to use must be specified within
+CreateMLPLabels.sh.
 
 c. PrepareMLP.sh mlptrain-si-284
 
-Shuffle and prepare Quicknet data for MLP training (see MLP architecture set-up
-inside the script.)
+Shuffle and prepare Quicknet data for MLP training (see MLP
+architecture set-up inside the script.)
 
 c. TrainMLP.sh mlptrain-si-284
 
@@ -129,8 +130,10 @@ e. ForwardMLP-test.sh fwdmlp-test-si_et_20
 Computes tandem features for the test set (it uses the KLT stats from the
 previous step).
 
-The train and test tandem features are stored into feats/$featName/$MLP_OUT_HTK_DIR . MLP_OUT_HTK_DIR is defined inside
-ForwardMLP-train.sh and ForwardMLP-test.sh respectively. To use tandem features to train and test acoustic models change the trainList and
+The train and test tandem features are stored into
+feats/$featName/$MLP_OUT_HTK_DIR . MLP_OUT_HTK_DIR is defined inside
+ForwardMLP-train.sh and ForwardMLP-test.sh respectively. To use tandem
+features to train and test acoustic models change the trainList and
 testList variables in Config.sh to:
 
   trainList=../fwdmlp-train-si-284/file-list-htk.txt
@@ -162,3 +165,4 @@ difficult to run.
 
 --
 Phil Garner, July 2011
+Marc Ferras
