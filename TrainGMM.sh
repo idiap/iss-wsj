@@ -19,6 +19,9 @@ chdir.sh $*
 export WORD_MLF=../local/si_tr_s.mlf
 export FILE_LIST=$trainList
 
+# Override this; HDecode may be set in Config, but cannot align
+export DECODER=HVite
+
 # TB 5800 => 2178 states
 # TB 4000 => 2829 states
 # TB 3750 => 2953 states
