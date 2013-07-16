@@ -1,5 +1,4 @@
-Wall Street Journal with ISS
-============================
+# Wall Street Journal with ISS
 
 1. Data preparation.  Execute the following scripts in order.
 
@@ -154,8 +153,7 @@ Score the test.
 
 
 
-Notes
-=====
+# Notes
 
 In principle the local directory could be copied to
 /idiap/resource/database because it is static.  This would save
@@ -164,5 +162,5 @@ running many of the CreateXXX.sh scripts.  However, they are not
 difficult to run.
 
 --
-Phil Garner, July 2011
+[Phil Garner](http://www.idiap.ch/~pgarner), July 2011
 Marc Ferras
