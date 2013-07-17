@@ -14,8 +14,6 @@ chdir.sh $*
 # Variables for the main script
 export USE_GE=0
 export FILE_LIST=$testList
-#export SCORE_REFERENCE=../local/si_et_05.mlf
-#export SCORE_REFERENCE=../local/h1_p0.mlf
 
 # Call the main script
 score.sh

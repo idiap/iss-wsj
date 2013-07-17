@@ -18,7 +18,7 @@ chdir.sh $*
 # Variables for the main script
 export WORD_MLF=../local/si_tr_s.mlf
 export FILE_LIST=$trainList
-export SAT_TRANS_DIR=../adaptcmllr-mfccez-si-284/adapt-base
+export SAT_TRANS_DIR=../cmllr-plp-si-84/adapt-base
 export SAT_TRANS_EXT=cmllr
 export DECODE_PATTERN='*/%%%?????.htk'
 

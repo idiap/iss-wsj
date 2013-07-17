@@ -14,15 +14,11 @@ chdir.sh $*
 # Variables for the main script
 export WORD_MLF=../local/si_tr_s.mlf
 export FILE_LIST=$trainList
-export MIX_ORDER=16
-export ADAPT_MODEL_DIR=../train-mfccez-si-284/hmm-eval
+export ADAPT_MODEL_DIR=../train-plp-si-84/hmm-eval
 export ADAPT_KIND=base
 export ADAPT_TRANS_KIND=CMLLR
 export ADAPT_TRANS_EXT=cmllr
 export ADAPT_PATTERN='*/%%%?????.htk'
-
-
-echo "$trainList"
 
 init-adapt.sh
 adapt-mllr.sh

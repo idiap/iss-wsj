@@ -15,8 +15,8 @@ chdir.sh $*
 export FILE_LIST=$testList
 
 # Specify the two models to use
-acousticModel=../plpz-si-284
-languageModel=../wsj20k
+acousticModel=../train-plp-si-84
+languageModel=../wsj5k
 export DECODE_ACOUSTIC_MODEL_DIR=$acousticModel/hmm-eval
 export DECODE_LANGUAGE_MODEL_DIR=$languageModel/htk-lm
 

@@ -16,7 +16,6 @@ source $software/initfiles/shrc $software
 # SETSHELLs
 SETSHELL hts
 SETSHELL grid
-SETSHELL python31
 
 # Check for ISS; add it to the path
 if [ "$ISSROOT" = "" ]
@@ -40,12 +39,11 @@ export AUDIO_NAME=wv1
 export PHONESET=CMUbet
 export FLAT_DICT=../local/flat-dict.txt
 export MAIN_DICT=../local/main-dict.txt
-
 export MIX_ORDER=16
 
 # Basic grid operation
 nCPUs=$(cat /proc/cpuinfo | fgrep processor | wc -l)
-if true
+if false
 then
     export USE_GE=1
     export N_JOBS=15
@@ -77,7 +75,8 @@ esac
 
 # Train and test lists
 # Choose si-84 or si-284 for training
-train=si-284
+# It's best to leave the default at si-84 as it's quicker
+train=si-84
 case $train in
 si-84)
     trainList=../local/si-84-list.txt
@@ -88,9 +87,10 @@ si-284)
 esac
 
 # Various sets for decoding
+# Default is the 5k system as it's quicker
 export DECODER=HDecode
 gram=b
-task=20k
+task=h2-p0
 case $task in
 h2-p0)
     export LM_ARPA_FILE=../local/${gram}cb05cnp-arpa.txt

@@ -10,24 +10,22 @@
 source Config.sh
 chdir.sh local
 
-TRAIN_LIST=si-284-list.txt
-TRAIN_MLF=si_tr_s.mlf
-TEST_LIST=si_et_20-list.txt
-TEST_MLF=si_et_20.mlf
+trainMLF=si_tr_s.mlf
+testMLF=$SCORE_REFERENCE
 PERCENT_TRAIN=90
 #MAX_SPEAKERS=50
 MAX_SPEAKERS=-1
 
 # do train/dev splitting
-SPK_LIST=`echo $TRAIN_LIST | sed -e 's/\.txt/-spk\.txt/g'`
+SPK_LIST=`echo $trainList | sed -e 's/\.txt/-spk\.txt/g'`
 (( PERCENT_DEV = 100 - PERCENT_TRAIN ))
-SPK_LIST_TRN=`echo $TRAIN_LIST | sed -e 's/\.txt/-spk-trn\.txt/g'`
-FILE_LIST_TRN=`echo $TRAIN_LIST | sed -e 's/\.txt/-trn\.txt/g'`
-SPK_LIST_DEV=`echo $TRAIN_LIST | sed -e 's/\.txt/-spk-dev\.txt/g'`
-FILE_LIST_DEV=`echo $TRAIN_LIST | sed -e 's/\.txt/-dev\.txt/g'`
+SPK_LIST_TRN=`echo $trainList | sed -e 's/\.txt/-spk-trn\.txt/g'`
+FILE_LIST_TRN=`echo $trainList | sed -e 's/\.txt/-trn\.txt/g'`
+SPK_LIST_DEV=`echo $trainList | sed -e 's/\.txt/-spk-dev\.txt/g'`
+FILE_LIST_DEV=`echo $trainList | sed -e 's/\.txt/-dev\.txt/g'`
 
 # create speaker list
-cat $TRAIN_LIST | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST 
+cat $trainList | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST 
 
 # keep either all speakers or just MAX_SPEAKERS
 nAllSpk=`cat $SPK_LIST | wc -l`
@@ -52,16 +50,16 @@ rm -f /dev/shm/${SPK_LIST}_shuf
 cat /dev/null > $FILE_LIST_TRN
 for spk in $(cat $SPK_LIST_TRN)
 do
-  grep "\/$spk\/" $TRAIN_LIST >> $FILE_LIST_TRN
+  grep "\/$spk\/" $trainList >> $FILE_LIST_TRN
 done
 
 cat /dev/null > $FILE_LIST_DEV
 for spk in $(cat $SPK_LIST_DEV)
 do
-  grep "\/$spk\/" $TRAIN_LIST >> $FILE_LIST_DEV
+  grep "\/$spk\/" $trainList >> $FILE_LIST_DEV
 done
 
-nAll=`cat $TRAIN_LIST | wc -l`
+nAll=`cat $trainList | wc -l`
 nTrain=`cat $FILE_LIST_TRN | wc -l`
 nDev=`cat $FILE_LIST_DEV | wc -l`
 echo "$nTrain utts. for training set, $nDev utts. for development set"
@@ -69,21 +67,21 @@ echo "$nTrain utts. for training set, $nDev utts. for development set"
 # generate train and dev transcriptions
 echo "Generating transcripts for train and dev sets"
 MLF=`echo $FILE_LIST_TRN | sed -e 's/\.txt/\.mlf/g'`
-mlfmatch.sh $TRAIN_MLF $FILE_LIST_TRN > $MLF
+mlfmatch.sh $trainMLF $FILE_LIST_TRN > $MLF
 MLF=`echo $FILE_LIST_DEV | sed -e 's/\.txt/\.mlf/g'`
-mlfmatch.sh $TRAIN_MLF $FILE_LIST_DEV > $MLF
+mlfmatch.sh $trainMLF $FILE_LIST_DEV > $MLF
 
 
 
 # do test list
-FILE_LIST_TEST=`echo $TEST_LIST | sed -e 's/\.txt/-tst\.txt/g'`
-SPK_LIST=`echo $TEST_LIST | sed -e 's/\.txt/-spk\.txt/g'`
-cat $TEST_LIST | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST
+FILE_LIST_TEST=`echo $testList | sed -e 's/\.txt/-tst\.txt/g'`
+SPK_LIST=`echo $testList | sed -e 's/\.txt/-spk\.txt/g'`
+cat $testList | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST
 nTestSpk=`cat $SPK_LIST | wc -l`
-cp $TEST_LIST $FILE_LIST_TEST
+cp $testList $FILE_LIST_TEST
 nTest=`cat $FILE_LIST_TEST | wc -l`
 echo "$nTest utts. for test ($nTestSpk spks.)"
 # generate MLF for test data
 echo "Generating transcripts for test set"
 MLF=`echo $FILE_LIST_TEST | sed -e 's/\.txt/\.mlf/g'`
-cp $TEST_MLF $MLF
+cp $testMLF $MLF

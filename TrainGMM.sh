@@ -33,7 +33,6 @@ export DECODER=HVite
 # TB 3500 => 3090 states
 
 export TIED_MIN_CLUSTER=300
-#export TIE_MAX_LLK_INC=3645
 export TIE_FORCE_NSTATES=3000
 
 # The main recipe.  You can jump in at various points.
@@ -50,7 +49,7 @@ init)
     tie.sh
     ;&
 mix-up)
-		maxMixOrder=$MIX_ORDER
+    maxMixOrder=$MIX_ORDER
     for i in 1 2 4 8 $maxMixOrder
     do
         export MIX_ORDER=$i

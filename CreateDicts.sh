@@ -11,8 +11,8 @@ source Config.sh
 chdir.sh local
 
 # We use the CMU dictionary
-cmudict=/idiap/resource/database/cmudict
-sourceDict=$cmudict/local/cmudict_SPHINX.dct
+ISS_DICTS=/idiap/group/speech/iss-dicts
+sourceDict=$ISS_DICTS/cmudict/local/cmudict_SPHINX.dct
 
 # Write the two dictionaries
 cat <<EOF > $FLAT_DICT

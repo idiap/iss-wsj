@@ -14,4 +14,4 @@ export USE_GE=0
 export FILE_LIST=/dev/null
 
 # Call the main script
-hts-create-lm.sh
+ht-create-lm.sh

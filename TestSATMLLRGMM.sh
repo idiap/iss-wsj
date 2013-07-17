@@ -13,34 +13,30 @@ chdir.sh $*
 
 # Variables for the main script
 export FILE_LIST=$testList
-export DECODE_DICT=$MAIN_DICT
 
-# This is the acoustic model to use
-#acousticModel=../plpz-si-284
-acousticModel=../train-mfccez-si-284
-#export DECODE_MODEL_DIR=$acousticModel/hmm-eval
-export DECODE_MODEL_DIR=$acousticModel/hmm-eval-sat
-export SAT_TRANS_DIR=../adaptcmllr-mfccez-si_et_20/adapt-base
+# Specify the two models to use
+acousticModel=../train-plp-si-84
+languageModel=../wsj5k
+export DECODE_ACOUSTIC_MODEL_DIR=$acousticModel/hmm-eval-sat
+export DECODE_LANGUAGE_MODEL_DIR=$languageModel/htk-lm
+
+# SAT-specific variables
+export SAT_TRANS_DIR=../cmllr-plp-h2-p0/adapt-base
 export SAT_TRANS_EXT=cmllr
+export DECODE_TRANS_DIR=../mllr-plp-h2-p0/adapt-tree
+export DECODE_TRANS_EXT=mllr
 export DECODE_PATTERN='*/%%%?????.htk'
 
 # The other things depend on which decoder is used
-export DECODER=HDecode
-export HDECODE=/idiap/home/mferras/src/htk/HTKLVRec/HDecode
 case $DECODER in
 'HVite')
-    # This is the grammar
-    export DECODE_NETWORK=../wsj5k/network.txt
     export DECODE_LM_SCALE=16.0
     export DECODE_WORD_PENALTY=-10.0
     export PRUNE="300 300 5000"
     ;;
 'HDecode')
-    # This is the grammar
-    #export DECODE_GRAMMAR=../local/bcb20cnp-arpa.txt
-    export DECODE_GRAMMAR=../local/tcb20onp-arpa.txt
-    export DECODE_DICT=../wsj20k/rec-dict.txt
-    export NET_WORDS=../local/wlist20o-nvp.txt
+    # HDecode should be a 32 bit version, so override it.
+    export HDECODE=/idiap/resource/software/HTK/HTK_V3.4.1/bin/HDecode
     export DECODE_LM_SCALE=16.0
     export DECODE_WORD_PENALTY=-10.0
     export PRUNE="250.0 250.0"
