@@ -5,7 +5,8 @@
 # See the file COPYING for the licence associated with this software.
 #
 # Author(s):
-#   Phil Garner, July 2011
+#   Marc Ferras
+#   Phil Garner, July 2013
 #
 source Config.sh
 chdir.sh local
@@ -17,23 +18,24 @@ PERCENT_TRAIN=90
 MAX_SPEAKERS=-1
 
 # do train/dev splitting
-SPK_LIST=`echo $trainList | sed -e 's/\.txt/-spk\.txt/g'`
+SPK_LIST=`echo $trainList:t | sed -e 's/\.txt/-spk\.txt/g'`
 (( PERCENT_DEV = 100 - PERCENT_TRAIN ))
-SPK_LIST_TRN=`echo $trainList | sed -e 's/\.txt/-spk-trn\.txt/g'`
-FILE_LIST_TRN=`echo $trainList | sed -e 's/\.txt/-trn\.txt/g'`
-SPK_LIST_DEV=`echo $trainList | sed -e 's/\.txt/-spk-dev\.txt/g'`
-FILE_LIST_DEV=`echo $trainList | sed -e 's/\.txt/-dev\.txt/g'`
+SPK_LIST_TRN=`echo $trainList:t | sed -e 's/\.txt/-spk-trn\.txt/g'`
+FILE_LIST_TRN=`echo $trainList:t | sed -e 's/\.txt/-trn\.txt/g'`
+SPK_LIST_DEV=`echo $trainList:t | sed -e 's/\.txt/-spk-dev\.txt/g'`
+FILE_LIST_DEV=`echo $trainList:t | sed -e 's/\.txt/-dev\.txt/g'`
 
 # create speaker list
-cat $trainList | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST 
+cat $trainList:t | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST 
 
 # keep either all speakers or just MAX_SPEAKERS
 nAllSpk=`cat $SPK_LIST | wc -l`
-if [[ $MAX_SPEAKERS > 0 ]] ; then
-  echo "Limiting the number of speakers to $MAX_SPEAKERS"
-  shuf $SPK_LIST | head -$MAX_SPEAKERS > ${SPK_LIST}.tmp
-  mv ${SPK_LIST}.tmp $SPK_LIST
-  nAllSpk=`cat $SPK_LIST | wc -l`
+if [[ $MAX_SPEAKERS > 0 ]]
+then
+    echo "Limiting the number of speakers to $MAX_SPEAKERS"
+    shuf $SPK_LIST | head -$MAX_SPEAKERS > ${SPK_LIST}.tmp
+    mv ${SPK_LIST}.tmp $SPK_LIST
+    nAllSpk=`cat $SPK_LIST | wc -l`
 fi
 
 # split data sets
@@ -50,16 +52,16 @@ rm -f /dev/shm/${SPK_LIST}_shuf
 cat /dev/null > $FILE_LIST_TRN
 for spk in $(cat $SPK_LIST_TRN)
 do
-  grep "\/$spk\/" $trainList >> $FILE_LIST_TRN
+    grep "\/$spk\/" $trainList:t >> $FILE_LIST_TRN
 done
 
 cat /dev/null > $FILE_LIST_DEV
 for spk in $(cat $SPK_LIST_DEV)
 do
-  grep "\/$spk\/" $trainList >> $FILE_LIST_DEV
+    grep "\/$spk\/" $trainList:t >> $FILE_LIST_DEV
 done
 
-nAll=`cat $trainList | wc -l`
+nAll=`cat $trainList:t | wc -l`
 nTrain=`cat $FILE_LIST_TRN | wc -l`
 nDev=`cat $FILE_LIST_DEV | wc -l`
 echo "$nTrain utts. for training set, $nDev utts. for development set"
@@ -74,11 +76,11 @@ mlfmatch.sh $trainMLF $FILE_LIST_DEV > $MLF
 
 
 # do test list
-FILE_LIST_TEST=`echo $testList | sed -e 's/\.txt/-tst\.txt/g'`
-SPK_LIST=`echo $testList | sed -e 's/\.txt/-spk\.txt/g'`
-cat $testList | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST
+FILE_LIST_TEST=`echo $testList:t | sed -e 's/\.txt/-tst\.txt/g'`
+SPK_LIST=`echo $testList:t | sed -e 's/\.txt/-spk\.txt/g'`
+cat $testList:t | awk '{ fname=system("basename " $1) }' | cut -c1-3 | sort -u > $SPK_LIST
 nTestSpk=`cat $SPK_LIST | wc -l`
-cp $testList $FILE_LIST_TEST
+cp $testList:t $FILE_LIST_TEST
 nTest=`cat $FILE_LIST_TEST | wc -l`
 echo "$nTest utts. for test ($nTestSpk spks.)"
 # generate MLF for test data

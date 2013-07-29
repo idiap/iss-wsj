@@ -151,7 +151,7 @@ CreateMLPLabels.sh align
 Shuffle and prepare Quicknet data for MLP training (see MLP
 architecture set-up inside the script.)
 ```sh
-PrepareMLP.sh mlptrain-si-84
+InitMLP.sh mlptrain-si-84
 ```
 
 Train MLP, outputs a mat file with architecture as file name.
@@ -162,13 +162,13 @@ TrainMLP.sh mlptrain-si-84
 Runs a MLP forward pass on the training data, trains the KLT transform and
 applies log and KLT to obtain tandem features.
 ```sh
-ForwardMLP-train.sh fwdmlp-train-si-84
+ForwardMLPTrain.sh fwdmlp-train-si-84
 ```
 
 Computes tandem features for the test set (it uses the KLT stats from the
 previous step).
 ```sh
-ForwardMLP-test.sh fwdmlp-test-h2-p0
+ForwardMLPTest.sh fwdmlp-test-h2-p0
 ```
 
 The train and test tandem features are stored into
@@ -183,10 +183,10 @@ testList=../fwdmlp-test-h2-p0/file-list-htk.txt
 
 Trains an HMM-GMM model using tandem features.
 ```sh
-Train.sh train-tandem-si-84
+TrainGMM.sh train-tandem-si-84
 ```
 
-Runs the test (You need to change the acoustic models used to
+Run the test (You need to change the acoustic models used to
 `acousticModel=../train-tandem-si-84`)
 ```sh
 TestGMM.sh test-tandem-h2-p0
@@ -196,13 +196,17 @@ Score the test.
 ```sh
 Score.sh test-tandem-h2-p0
 ```
+Result should be:
+```
+SENT: %Correct=32.56 [H=70, S=145, N=215]
+WORD: %Corr=91.48, Acc=89.76 [H=3521, D=88, S=240, I=66, N=3849]
+```
 
 # Notes
 
-In principle the local directory could be copied to
-`/idiap/resource/database` because it is static.  This would save
-running many of the CreateXXX.sh scripts.  However, they are not
-difficult to run.
+In principle the local directory could be copied to a static site
+directory.  This would save running many of the CreateXXX.sh scripts.
+However, they are not difficult to run.
 
 
 [Phil Garner](http://www.idiap.ch/~pgarner), July 2011

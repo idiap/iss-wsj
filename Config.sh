@@ -15,6 +15,8 @@ source $software/initfiles/shrc $software
 
 # SETSHELLs
 SETSHELL hts
+SETSHELL icsi-speech-tools
+SETSHELL quicknet
 SETSHELL grid
 
 # Check for ISS; add it to the path
@@ -108,3 +110,13 @@ esac
 
 # This should get overridden
 export FILE_LIST=/dev/null
+
+# For Tandem training; set to true
+if false
+then
+    echo Config.sh: TANDEM MODE
+    trainList=../fwdmlp-train-si-84/file-list-htk.txt
+    testList=../fwdmlp-test-h2-p0/file-list-htk.txt
+    export TARGET_KIND=USER
+    export FEAT_DIM=32
+fi

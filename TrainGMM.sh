@@ -22,16 +22,6 @@ export FILE_LIST=$trainList
 # Override this; HDecode may be set in Config, but cannot align
 export DECODER=HVite
 
-# TB 5800 => 2178 states
-# TB 4000 => 2829 states
-# TB 3750 => 2953 states
-# TB 3650 => 2997 states
-# TB 3645 => 3001 states
-# TB 3640 => 3004 states
-# TB 3625 => 3010 states
-# TB 3600 => 3025 states
-# TB 3500 => 3090 states
-
 export TIED_MIN_CLUSTER=300
 export TIE_FORCE_NSTATES=3000
 
